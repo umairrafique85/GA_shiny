@@ -5,6 +5,7 @@ library(readr)
 library(tidyr)
 library(plotly)
 library(shinydashboard)
+library(googleAnalyticsR)
 select <- dplyr::select
 
 shinyServer(function(input, output, session) {
@@ -28,7 +29,7 @@ shinyServer(function(input, output, session) {
   })
   
   df_dataPulled <- eventReactive(input$btn_fetchData, {
-    try(google_analytics(input$txt_metrics_tab1, date_range = c(input$date_from_tab1, input$date_to_tab1), 
+    try(google_analytics(input$txt_viewId_tab1, date_range = c(input$date_from_tab1, input$date_to_tab1), 
                      dimensions = unlist(strsplit(input$txt_dimensions_tab1, split = " ")), 
                      metrics = unlist(strsplit(input$txt_metrics_tab1, split = " "))))
   })
