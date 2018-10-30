@@ -18,14 +18,20 @@ shinyServer(function(input, output, session) {
     try(output$tableFetched_tab1 <- renderDataTable(ga_account_list()))
   })
   
-  observeEvent(input$slct_dimensions_tab1, {
-    updateTextInput(session, "txt_dimensions_tab1", value = paste(input$txt_dimensions_tab1, input$slct_dimensions_tab1, 
-                                                                  sep = " "))
+  observeEvent(input$btn_addDimension, {
+    updateTextInput(session, "txt_dimensions_tab1", 
+                    value = paste(unique(c(unlist(strsplit(input$txt_dimensions_tab1, 
+                                                         split = " ", fixed = T)), 
+                                           input$slct_dimensions_tab1)), 
+                                  collapse = " "))
   })
   
-  observeEvent(input$slct_metrics_tab1, {
-    updateTextInput(session, "txt_metrics_tab1", value = paste(input$txt_metrics_tab1, input$slct_metrics_tab1, 
-                                                               sep = " "))
+  observeEvent(input$btn_addMetric, {
+    updateTextInput(session, "txt_metrics_tab1", 
+                    value = paste(unique(c(unlist(strsplit(input$txt_metrics_tab1, 
+                                                           split = " ", fixed = T)), 
+                                           input$slct_metrics_tab1)), 
+                                  collapse = " "))
   })
   
   df_dataPulled <- eventReactive(input$btn_fetchData, {

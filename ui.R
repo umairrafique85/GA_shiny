@@ -38,20 +38,32 @@ dashboardPage(
           )
         ),
         fluidRow(
-          column(width = 6,
-            textInput("txt_dimensions_tab1", label = "Dimensions selected:"),
-            selectInput("slct_dimensions_tab1", "Select dimension to add", choices = avlblDimensions)
+          column(width = 6, 
+            textInput("txt_dimensions_tab1", label = "Dimensions selected:")
           ),
           column(width = 6,
-            textInput("txt_metrics_tab1", label = "Metrics selected:"),
+            textInput("txt_metrics_tab1", label = "Metrics selected:")
+          )
+        ),
+        fluidRow(
+          column(width = 5,
+            selectInput("slct_dimensions_tab1", "Select dimension to add", choices = avlblDimensions)
+          ),
+          column(width = 1,
+            actionButton("btn_addDimension", "+")
+          ),
+          column(width = 5,
             selectInput("slct_metrics_tab1", "Select metric to add", choices = avlblMetrics)
+          ),
+          column(width = 1,
+            actionButton("btn_addMetric", "+")
           )
         ),
         fluidRow(
           actionButton("btn_fetchData", "Fetch Data")
         ),
         fluidRow(
-          dataTableOutput("tableFetched_tab1")
+          box(dataTableOutput("tableFetched_tab1"))
         )
       ),
       tabItem(tabName = "tab2_wrangle"

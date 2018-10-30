@@ -1,1 +1,6 @@
 .httr-oauth
+.gitignore
+.Rhistory
+.RData
+rsconnect/
+data/
