@@ -23,10 +23,11 @@ shinyServer(function(input, output, session) {
   observeEvent(input$btn_quickAudit_tab1, {
     if (str_detect(input$txt_viewId_tab1, "\\S")){
       try({
-        df_srcMdmData <- google_analytics(input$txt_viewId_tab1, date_range = c(Sys.Date() - 30,
-                                                                                Sys.Date()),
+        df_srcMdmData <- google_analytics(input$txt_viewId_tab1, date_range = c(Sys.Date() - 31,
+                                                                                Sys.Date() - 1),
                                           dimensions = "sourceMedium", metrics = "users")
       })
+    }
       try({
         if (input$btn_accList_tab1<1){
           accsList(ga_account_list())
@@ -36,6 +37,7 @@ shinyServer(function(input, output, session) {
         rawUrl[length(rawUrl)] <- str_extract(rawUrl[length(rawUrl)], "(?:(?!\\/).)*")
         self_domain(paste(rawUrl[2:length(rawUrl)], collapse = "."))
       })
+    if (!is.null(df_srcMdmData)){
       output$txt_selfDomainTest <- renderText(paste("self domain found in source/Medium:",
                                                     self_domain() %in% df_srcMdmData$sourceMedium))
       vct_paymentPortals <- c("pay.amazon.com", "paypal.com", "pay.shopify.com", 
@@ -47,6 +49,8 @@ shinyServer(function(input, output, session) {
         geom_bar(stat = 'identity') + scale_fill_gradient(low = 'blue', high = 'red') + 
         coord_flip() -> srcMdmPlot
       output$plt_srcMdmTest_tab1 <- renderPlotly(ggplotly(srcMdmPlot))
+    } else {
+      output$txt_selfDomainTest <- renderText("No data found for the mentioned view in this date range")
     }
   })
   
